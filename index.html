@@ -1,0 +1,78 @@
+<html>
+<head>
+    <title>Bill Splitter</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+</head>
+
+<body>
+<div class="form-group">
+    <form action="return false">
+        <input type="text" id="salaries" class="salaries" name="salaries"><br>
+        <label id = "l1" name="l1"for="salaries">Enter a forward slash [/] separated list of salaries</label><br>
+        <label style="font-size: 80%;"for="l1">
+            (£1,234.56/1,234.56/1234.56)
+        </label>
+        <br><br>
+
+        <input type="text" id="cost" class="cost" name="cost"><br>
+        <label for="cost">Enter The Cost (£154.32) </label>
+        <br><br>
+
+        <input type="button" id="submit" class="submit btn btn-primary" name="submit" value="Submit" onclick=calculate()>
+        <br><br>
+
+        <hr>
+        <input type="text" id="output" class = "output" name="output"><br>
+        <label for="output">Split Bill</label>
+        <hr>
+
+    </form>
+</div>
+<script>
+    function calculate(){
+        let salaries = document.getElementById("salaries").value.replace(",","").replace("£","").split("/");
+        const cost = parseFloat(document.getElementById("cost").value.replace(",","").replace("£",""));
+
+        let totalSalary = 0;
+        for (let i of salaries) {
+            totalSalary += parseFloat(parseFloat(i).toFixed(4));
+        }
+
+
+        var percentSalaries = []
+
+        for(let i of salaries){
+            let percentVal = parseFloat(i) / totalSalary
+            percentVal = parseFloat(parseFloat(percentVal).toFixed(4));
+            percentSalaries.push(percentVal)
+        }
+
+
+
+        proportions = []
+
+        for(let i of percentSalaries){
+            let proportion = i * cost
+            proportion = parseFloat(parseFloat(proportion).toFixed(4));
+            proportions.push(proportion)
+        }
+
+        let outputValues = "";
+
+        for(let proportion of proportions){
+            let toAppend = "£" + parseFloat(proportion).toFixed(2) + "/";
+            outputValues += toAppend;
+        }
+
+        document.getElementById("output").value = outputValues;
+
+        return false;
+    }
+</script>
+
+
+</body>
+
+
+
+</html>
